@@ -1,0 +1,9 @@
+{
+  "name": "generator-loopback-ansible",
+  "version": "1.0.0",
+  "description": "Generates a loopback ansible application",
+  "main": "index.js",
+  "repository": "git@github.com:tcheymol/generator-loopback-ansible.git",
+  "author": "Tcheymol",
+  "license": "MIT"
+}
