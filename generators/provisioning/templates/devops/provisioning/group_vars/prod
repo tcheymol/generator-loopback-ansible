@@ -1,0 +1,18 @@
+---
+
+# List of databases to be created
+postgresql_databases:
+  - name: <%= appName %>
+    hstore: yes
+    uuid_ossp: yes
+
+# List of users to be created
+postgresql_users:
+  - name: <%= appName %>
+    pass: <%= prodDatabasePassword %>
+
+postgresql_user_privileges:
+  - name: <%= appName %>
+    db: <%= appName %>
+    priv: "ALL"
+    role_attr_flags: "SUPERUSER"

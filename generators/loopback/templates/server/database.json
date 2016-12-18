@@ -1,0 +1,19 @@
+{
+  "dev": {
+    "driver": "postgres",
+    "database": "<%= appName %>",
+    "user": "<%= appName %>",
+    "password": "<%= appName %>",
+    "host": "localhost",
+    "port": 5432
+  },
+  "production": {
+    "driver": "postgres",
+    "database": "<%= appName %>",
+    "user": "<%= appName %>",
+    "password": "Ch6;6'rAReK`P:UQn`.R",
+    "host": "localhost",
+    "port": 5432
+  },
+"sql-file" : true
+}

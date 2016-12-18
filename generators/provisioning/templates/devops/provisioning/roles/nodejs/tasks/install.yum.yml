@@ -1,0 +1,7 @@
+---
+
+- name: Install nodejs
+  yum: name=nodejs
+
+- name: Install npm
+  yum: name=npm

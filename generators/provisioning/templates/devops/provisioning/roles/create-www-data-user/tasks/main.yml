@@ -1,0 +1,13 @@
+---
+
+- name: Creates www directory
+  file: path=/var/www state=directory
+
+- name: update www-data shell
+  user: name=www-data shell=/bin/bash home=/var/www
+
+- name: set correct permissions for www dir
+  file: path=/var/www owner=www-data group=www-data mode=0700 state=directory
+
+- name: set correct permissions for ssh dir
+  file: path=/var/www/.ssh owner=www-data group=www-data mode=0700 state=directory

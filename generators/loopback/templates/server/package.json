@@ -1,0 +1,44 @@
+{
+  "name": "<%= appName %>",
+  "version": "1.0.0",
+  "main": "server/server.js",
+  "scripts": {
+    "lint": "eslint .",
+    "migrate:create": "./node_modules/.bin/db-migrate create --sql-file",
+    "migrate:down": "./node_modules/.bin/db-migrate down -e $NODE_ENV",
+    "migrate:up": "./node_modules/.bin/db-migrate up -e $NODE_ENV",
+    "posttest": "npm run lint && nsp check",
+    "start": " npm run migrate:up && yarn stop && ./node_modules/.bin/pm2 start pm2.yml",
+    "start:watch": "npm run migrate:up && ./node_modules/.bin/pm2 start server/server.js --watch ./server",
+    "stop": "./node_modules/.bin/pm2 kill"
+  },
+  "dependencies": {
+    "compression": "^1.0.3",
+    "cors": "^2.8.1",
+    "helmet": "^1.3.0",
+    "jsonwebtoken": "^7.2.1",
+    "loopback": "^3.0.0",
+    "loopback-boot": "^2.6.5",
+    "loopback-component-explorer": "^2.4.0",
+    "loopback-connector-postgresql": "^2.7.0",
+    "loopback-datasource-juggler": "^2.53.0",
+    "loopback-ds-timestamp-mixin": "3.4.0",
+    "pg": "^6.1.0",
+    "pm2": "^2.1.6",
+    "serve-favicon": "^2.0.1",
+    "strong-error-handler": "^1.0.1"
+  },
+  "devDependencies": {
+    "db-migrate": "^0.10.0-beta.20",
+    "db-migrate-pg": "^0.1.11",
+    "eslint": "^2.13.1",
+    "eslint-config-loopback": "^4.0.0",
+    "nsp": "^2.1.0"
+  },
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "license": "UNLICENSED",
+  "description": "<%= appName %>"
+}

@@ -1,0 +1,44 @@
+{
+  "name": "user",
+  "plural": "users",
+  "base": "User",
+  "strict": false,
+  "options": {
+    "promisify": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "createdat",
+      "updatedAt": "updatedat"
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "String",
+      "id": true,
+      "defaultFn": "uuid",
+      "postgresql": {
+        "dataType": "uuid"
+      }
+    },
+    "firstName": {
+      "type": "String"
+    },
+    "lastName": {
+      "type": "String"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "*"
+    }
+  ]
+}

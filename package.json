@@ -2,6 +2,16 @@
   "name": "generator-loopback-ansible",
   "version": "1.0.0",
   "description": "Generates a loopback ansible application",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "files": [
+    "generators"
+  ],
+  "dependencies": {
+    "yarn-install": "^0.2.1",
+    "yeoman-generator": "^1.0.0"
+  },
   "main": "index.js",
   "repository": "git@github.com:tcheymol/generator-loopback-ansible.git",
   "author": "Tcheymol",
