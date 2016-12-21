@@ -45,7 +45,20 @@ Now, you are set up !
 You can browse a static page served by Loopback at the following url : `http://10.0.0.10`
 You can also browse Loopback's explorer at : `http://10.0.0.10/explorer`
 
+## The deployment
+You can now setup the deployment in production and staging with the following command:
+```
+yo loopback-ansible:deployment
+```
+
+To deploy a provisionned staging machine, run:
+```
+./node_modules/.bin/shipit staging deploy
+```
+To deploy a provisionned production machine, run:
+```
+./node_modules/.bin/shipit prod deploy
+```
 
 ## Roadmap
-+ Add deployment with Shipit
 + Add an admin generator
