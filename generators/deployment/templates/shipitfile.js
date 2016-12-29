@@ -22,7 +22,12 @@ module.exports = function (shipit) {
     },
   });
 
-  shipit.task('deploy:finish', () => (
-    shipit.remote('cd ~/<%= appName %>/current && yarn && yarn start')
-  ));
+  shipit.task('deploy:finish', () => {
+    switch(shipit.config.branch) {
+      case 'master':
+        return shipit.remote('cd ~/<%= appName %>/current && yarn && yarn start:prod');
+      default:
+        return shipit.remote('cd ~/<%= appName %>/current && yarn && yarn start');
+    }
+  });
 };

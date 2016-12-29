@@ -9,6 +9,7 @@
     "migrate:up": "./node_modules/.bin/db-migrate up -e $NODE_ENV",
     "posttest": "npm run lint && nsp check",
     "start": " npm run migrate:up && yarn stop && ./node_modules/.bin/pm2 start pm2.yml",
+    "start:prod": "npm run migrate:up -- -e production && NODE_ENV=production ./node_modules/.bin/pm2 start pm2.yml",
     "start:watch": "npm run migrate:up && ./node_modules/.bin/pm2 start server/server.js --watch ./server",
     "stop": "./node_modules/.bin/pm2 kill"
   },

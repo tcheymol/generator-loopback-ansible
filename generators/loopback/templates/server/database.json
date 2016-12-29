@@ -11,9 +11,9 @@
     "driver": "postgres",
     "database": "<%= appName %>",
     "user": "<%= appName %>",
-    "password": "Ch6;6'rAReK`P:UQn`.R",
+    "password": "<%= prodDatabasePassword %>",
     "host": "localhost",
     "port": 5432
   },
-"sql-file" : true
+  "sql-file" : true
 }

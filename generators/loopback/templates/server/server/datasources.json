@@ -1,15 +1,1 @@
-{
-  "db": {
-    "name": "db",
-    "host": "localhost",
-    "port": 5432,
-    "username": "<%= appName %>",
-    "database": "<%= appName %>",
-    "password": "<%= appName %>",
-    "connector": "postgresql"
-  },
-  "memory": {
-    "name": "memory",
-    "connector": "memory"
-  }
-}
+{}

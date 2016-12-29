@@ -4,12 +4,20 @@ const yarnInstall = require('yarn-install');
 class LoopbackGenerator extends Generator {
   prompting() {
     const config = this.fs.readJSON(this.destinationPath('package.json'));
-    return this.prompt([{
-      type    : 'input',
-      name    : 'appName',
-      message : 'Your application name',
-      default : config.name,
-    }]).then((answers) => {
+    return this.prompt([
+      {
+        type    : 'input',
+        name    : 'appName',
+        message : 'Your application name',
+        default : config.name,
+      },
+      {
+        type    : 'input',
+        name    : 'prodDatabasePassword',
+        message : 'Your production database password',
+        default : config.name,
+      }
+    ]).then((answers) => {
       this.answers = answers;
     });
   }
