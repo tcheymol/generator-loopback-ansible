@@ -12,8 +12,14 @@
   file: path=/etc/nginx/sites-available/default state=absent
   notify: reload-nginx
 
+- name: add letsencrypt server main listener
+  template: src=etc/nginx/conf.d/conf.letsencrypt dest=/etc/nginx/conf.d/main.conf
+  when: domain_name is defined and letsencrypt
+  notify: restart-nginx
+
 - name: add server main listener
   template: src=etc/nginx/conf.d/conf dest=/etc/nginx/conf.d/main.conf
+  when: domain_name is undefined or not letsencrypt
   notify: restart-nginx
 
 - name: nginx - update mime types

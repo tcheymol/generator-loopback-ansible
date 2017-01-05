@@ -1,0 +1,23 @@
+---
+- name: Install letsencrypt from git
+  git:
+    repo: https://github.com/letsencrypt/letsencrypt
+    dest: "{{ letsencrypt_install_path }}"
+
+- name: Check modification times of letsencrypt certificates
+  stat:
+    path: "{{ letsencrypt_cert_path }}/{{ domain_name }}/privkey.pem"
+  when: domain_name is defined and letsencrypt
+  register: cert_renewal
+
+- name: Create new letsencrypt certificates
+  command: "{{ letsencrypt_install_path }}/letsencrypt-auto certonly --standalone --renew-by-default --email {{ letsencrypt_admin_email }} -d {{ domain_name }} --agree-tos creates={{ letsencrypt_cert_path }}/{{ domain_name }}/fullchain.pem"
+  when: "cert_renewal is defined and not cert_renewal.results.stat.exists and letsencrypt and domain_name is defined"
+
+- name: Install letsencrypt renewal cron
+  when: "letsencrypt and domain_name is defined"
+  cron: name="Let's Encrypt Renewal"
+    day="{{ letsencrypt_renewal_frequency.day }}"
+    hour="{{ letsencrypt_renewal_frequency.hour }}"
+    minute="{{ letsencrypt_renewal_frequency.minute }}"
+    job="{{ letsencrypt_install_path }}/letsencrypt-auto certonly --standalone --renew-by-default --email {{ letsencrypt_admin_email }} -d {{ domain_name }} --agree-tos > /dev/null"

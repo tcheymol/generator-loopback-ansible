@@ -37,6 +37,8 @@ class LoopbackGenerator extends Generator {
       }
     ]).then((answers) => {
       this.answers = answers;
+      this.answers.stagingUrl = this.answers.stagingUrl.replace(/^https?:\/\//i, '');
+      this.answers.prodUrl = this.answers.prodUrl.replace(/^https?:\/\//i, '');
     });
   }
 

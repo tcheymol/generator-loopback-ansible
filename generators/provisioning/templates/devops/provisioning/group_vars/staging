@@ -16,3 +16,7 @@ postgresql_user_privileges:
     db: <%= appName %>
     priv: "ALL"
     role_attr_flags: "SUPERUSER"
+
+domain_name: <%= stagingUrl %>
+letsencrypt: true # create a certificate with letsencrypt
+letsencrypt_admin_email: webmaster@<%= stagingUrl %>

@@ -14,5 +14,6 @@
     - ubuntu-apt
     - create-www-data-user
     - nodejs
+    - letsencrypt
     - ubuntu-nodejs-nginx
     - ubuntu-postgresql

@@ -1,0 +1,11 @@
+---
+letsencrypt: false # create a certificate with letsencrypt
+letsencrypt_admin_email: admin@example.com
+
+letsencrypt_install_path: /usr/local/letsencrypt
+letsencrypt_cert_path: /etc/letsencrypt/live
+
+letsencrypt_renewal_frequency:
+  day: '*'
+  hour: '0'
+  minute: '0'

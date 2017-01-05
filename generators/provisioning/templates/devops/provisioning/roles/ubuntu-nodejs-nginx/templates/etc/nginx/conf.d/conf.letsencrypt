@@ -1,0 +1,41 @@
+# don't send the nginx version number in error pages and Server header
+server_tokens off;
+
+server {
+	listen 80;
+	listen [::]:80;
+	server_name {{ domain_name }};
+	return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443;
+    listen [::]:443;
+    server_name {{ domain_name }};
+
+    root /var/www/{{ project_name }}/current/client/;
+    index {{ index_default }};
+
+    gzip            on;
+    gzip_min_length 1000;
+    gzip_comp_level 9;
+    gzip_proxied    any;
+    gzip_types      application/javascript application/x-javascript application/json text/css;
+
+    ssl on;
+    ssl_certificate {{ letsencrypt_cert_path }}/{{ domain_name }}/fullchain.pem;
+    ssl_certificate_key {{ letsencrypt_cert_path }}/{{ domain_name }}/privkey.pem;
+
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    ssl_trusted_certificate {{ letsencrypt_cert_path }}/{{ domain_name }}/fullchain.pem;
+
+    location {{ node_route }} {
+        proxy_pass http://127.0.0.1:{{ node_port }};
+        rewrite {{ node_route }}/(.*) /$1 break;
+
+        proxy_hide_header X-Powered-By;
+        add_header X-Frame-Options SAMEORIGIN;
+        add_header X-Content-Type-Options nosniff;
+    }
+}
