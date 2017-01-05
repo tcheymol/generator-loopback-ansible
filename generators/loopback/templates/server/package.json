@@ -12,7 +12,7 @@
     "start:prod": "npm run migrate:up -- -e production && NODE_ENV=production pm2 start pm2.yml",
     "start:watch": "npm run migrate:up && pm2 start server/server.js --watch ./server",
     "stop": "pm2 kill",
-    "test": "nyc --all mocha --recursive"
+    "test": "jest"
   },
   "dependencies": {
     "compression": "^1.0.3",
@@ -33,8 +33,6 @@
   "devDependencies": {
     "babel-core": "6.21.0",
     "babel-eslint": "7.1.1",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
     "db-migrate": "^0.10.0-beta.20",
     "db-migrate-pg": "^0.1.11",
     "eslint": "^3.12.2",
@@ -43,11 +41,8 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.8.0",
-    "mocha": "^3.2.0",
-    "nsp": "^2.1.0",
-    "nyc": "^10.0.0",
-    "sinon": "^1.17.7",
-    "sinon-chai": "^2.8.0"
+    "jest": "^18.1.0",
+    "nsp": "^2.1.0"
   },
   "repository": {
     "type": "",
@@ -55,14 +50,13 @@
   },
   "license": "UNLICENSED",
   "description": "<%= appName %>",
-  "nyc": {
-    "exclude": [
-      "test",
-      "**/node_modules/**",
-      "**/datasources.local.js"
-    ],
-    "include": [
-      "server/**/*.js"
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "server/**/*.{js,jsx}",
+      "!**/datasources.*.js",
+      "!**/node_modules/**",
+      "!**/vendor/**"
     ]
   }
 }
