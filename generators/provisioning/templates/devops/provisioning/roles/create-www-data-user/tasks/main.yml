@@ -11,3 +11,15 @@
 
 - name: set correct permissions for ssh dir
   file: path=/var/www/.ssh owner=www-data group=www-data mode=0700 state=directory
+
+- name: Copy .profile and .bashrc files
+  copy: src={{ item.src }} dest={{ item.dest }} owner=www-data group=www-data mode=0644
+  with_items:
+    - { src: 'var/www/bashrc', dest: '/var/www/.bashrc' }
+    - { src: 'var/www/profile', dest: '/var/www/.profile' }
+
+- authorized_key:
+    user: www-data
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  become: yes
