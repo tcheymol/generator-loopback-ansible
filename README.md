@@ -59,6 +59,17 @@ ansible-playbook -i devops/provisioning/hosts/staging devops/provisioning/playbo
 sudo apt-get update
 sudo apt-get install python-simplejson
 ```
+Now, you can relaunch
+```
+ansible-playbook -i devops/provisioning/hosts/staging devops/provisioning/playbook.yml
+```
+
+Then, you have to ssh to your machine as root and add your ssh key to the www-data user to be able to run the server and deploy as www-data
+```
+sudo su - www-data
+vim .ssh/authorized_keys
+```
+Then, paste your ssh public key to this file
 
 ## The deployment
 You can now setup the deployment in production and staging with the following command:
