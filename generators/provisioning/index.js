@@ -67,6 +67,11 @@ class LoopbackGenerator extends Generator {
       this.answers
     );
     this.fs.copyTpl(
+      this.templatePath('**/package.json'),
+      this.destinationPath(''),
+      this.answers
+    );
+    this.fs.copyTpl(
       this.templatePath('**/*.cfg'),
       this.destinationPath(''),
       this.answers
