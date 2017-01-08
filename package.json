@@ -1,6 +1,6 @@
 {
   "name": "generator-loopback-ansible",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generates a loopback ansible application",
   "keywords": [
     "yeoman-generator"
