@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "lint": "eslint .",
-    "migrate:create": "./node_modules/.bin/db-migrate create --sql-file",
-    "migrate:down": "./node_modules/.bin/db-migrate down -e $NODE_ENV",
-    "migrate:up": "./node_modules/.bin/db-migrate up -e $NODE_ENV",
+    "lint": "eslint ./server",
+    "migrate:create": "db-migrate create --sql-file",
+    "migrate:down": "db-migrate down -e $NODE_ENV",
+    "migrate:up": "db-migrate up -e $NODE_ENV",
     "posttest": "npm run lint && nsp check",
-    "start": " npm run migrate:up && yarn stop && ./node_modules/.bin/pm2 start pm2.yml",
-    "start:prod": "npm run migrate:up -- -e production && NODE_ENV=production ./node_modules/.bin/pm2 start pm2.yml",
-    "start:watch": "npm run migrate:up && ./node_modules/.bin/pm2 start server/server.js --watch ./server",
-    "stop": "./node_modules/.bin/pm2 kill"
+    "start": " npm run migrate:up && yarn stop && pm2 start pm2.yml",
+    "start:prod": "npm run migrate:up -- -e production && NODE_ENV=production pm2 start pm2.yml",
+    "start:watch": "npm run migrate:up && pm2 start server/server.js --watch ./server",
+    "stop": "pm2 kill",
+    "test": "jest"
   },
   "dependencies": {
     "compression": "^1.0.3",
@@ -30,10 +31,17 @@
     "strong-error-handler": "^1.0.1"
   },
   "devDependencies": {
+    "babel-core": "6.21.0",
+    "babel-eslint": "7.1.1",
     "db-migrate": "^0.10.0-beta.20",
     "db-migrate-pg": "^0.1.11",
-    "eslint": "^2.13.1",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb": "^13.0.0",
     "eslint-config-loopback": "^4.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.8.0",
+    "jest": "^18.1.0",
     "nsp": "^2.1.0"
   },
   "repository": {
@@ -41,5 +49,14 @@
     "url": ""
   },
   "license": "UNLICENSED",
-  "description": "<%= appName %>"
+  "description": "<%= appName %>",
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "server/**/*.{js,jsx}",
+      "!**/datasources.*.js",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ]
+  }
 }

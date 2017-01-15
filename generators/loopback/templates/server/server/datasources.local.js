@@ -1,4 +1,3 @@
-
 const database = require('../database.json');
 
 const datasourcesDevConfig = {
@@ -9,11 +8,11 @@ const datasourcesDevConfig = {
     port: database.dev.port,
     database: database.dev.database,
     username: database.dev.user,
-    password: database.dev.password
+    password: database.dev.password,
   },
-  "memory": {
-    "name": "memory",
-    "connector": "memory"
+  memory: {
+    name: 'memory',
+    connector: 'memory',
   },
 };
 
@@ -25,11 +24,11 @@ const datasourcesProdConfig = {
     port: database.dev.port,
     database: database.production.database,
     username: database.production.user,
-    password: database.production.password
+    password: database.production.password,
   },
-  "memory": {
-    "name": "memory",
-    "connector": "memory"
+  memory: {
+    name: 'memory',
+    connector: 'memory',
   },
 };
 
