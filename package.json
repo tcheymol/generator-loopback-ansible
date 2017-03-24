@@ -1,19 +1,17 @@
 {
-  "name": "generator-loopback-ansible",
-  "version": "1.0.6",
-  "description": "Generates a loopback ansible application",
-  "keywords": [
-    "yeoman-generator"
-  ],
+  "name": "generator-ansible-loopback-react-redux",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
   "files": [
     "generators"
   ],
+  "keywords": [
+    "yeoman-generator"
+  ],
   "dependencies": {
-    "yarn-install": "^0.2.1",
-    "yeoman-generator": "^1.0.0"
+    "yeoman-generator": "^1.1.0"
   },
-  "main": "index.js",
-  "repository": "git@github.com:tcheymol/generator-loopback-ansible.git",
-  "author": "Tcheymol",
-  "license": "MIT"
+  "author": "",
+  "license": "ISC"
 }

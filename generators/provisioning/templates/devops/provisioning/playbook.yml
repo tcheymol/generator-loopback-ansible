@@ -13,6 +13,6 @@
   roles:
     - ubuntu-apt
     - create-www-data-user
-    - nodejs
+    - any-nodejs
     - ubuntu-nodejs-nginx
     - ubuntu-postgresql

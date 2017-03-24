@@ -1,5 +1,4 @@
 const Generator = require('yeoman-generator');
-const yarnInstall = require('yarn-install');
 
 class LoopbackGenerator extends Generator {
   prompting() {
@@ -10,30 +9,35 @@ class LoopbackGenerator extends Generator {
         name    : 'appName',
         message : 'Your application name',
         default : config.name,
+        store   : true
       },
       {
         type    : 'input',
         name    : 'stagingUrl',
         message : 'Your staging url',
         default : '',
+        store   : true
       },
       {
         type    : 'input',
         name    : 'stagingDatabasePassword',
         message : 'Your staging database password',
         default : config.name,
+        store   : true
       },
       {
         type    : 'input',
         name    : 'prodUrl',
         message : 'Your production url',
         default : '',
+        store   : true
       },
       {
         type    : 'input',
         name    : 'prodDatabasePassword',
         message : 'Your production database password',
         default : config.name,
+        store   : true
       }
     ]).then((answers) => {
       this.answers = answers;
@@ -67,11 +71,6 @@ class LoopbackGenerator extends Generator {
       this.answers
     );
     this.fs.copyTpl(
-      this.templatePath('**/package.json'),
-      this.destinationPath(''),
-      this.answers
-    );
-    this.fs.copyTpl(
       this.templatePath('**/*.cfg'),
       this.destinationPath(''),
       this.answers
@@ -79,6 +78,12 @@ class LoopbackGenerator extends Generator {
     this.fs.copy(
       this.templatePath('**/roles/**'),
       this.destinationRoot()
+    );
+
+    this.fs.copyTpl(
+      this.templatePath('**/*.md'),
+      this.destinationPath(''),
+      this.answers
     );
   }
 
