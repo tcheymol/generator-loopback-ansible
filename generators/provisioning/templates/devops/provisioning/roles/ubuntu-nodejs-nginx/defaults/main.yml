@@ -1,7 +1,5 @@
 ---
-domain_name: "localhost"
-node_route: "/"
+node_route: "/api"
 node_port: 3000
-project_name: mySuperProjectName
 index_default: "index.html"
-use_https: false
+client_public_file_directory: "client/dist"

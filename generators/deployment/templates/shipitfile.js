@@ -1,14 +1,15 @@
 module.exports = function (shipit) {
   require('shipit-deploy')(shipit);
+  require('shipit-npm')(shipit);
 
   shipit.initConfig({
     default: {
       workspace: '/tmp/<%= appName %>',
       deployTo: '~/<%= appName %>',
       repositoryUrl: '<%= repositoryUrl %>',
-      ignores: ['.git', 'node_modules'],
+      ignores: ['.git', 'tests', '.gitignore', 'devops', 'client/tests', 'node_modules', 'client/node_modules'],
       rsync: ['--del'],
-      keepReleases: 2,
+      keepReleases: 3,
       key: '~/.ssh/id_rsa',
       shallowClone: true,
     },
@@ -23,11 +24,6 @@ module.exports = function (shipit) {
   });
 
   shipit.task('deploy:finish', () => {
-    switch(shipit.config.branch) {
-      case 'master':
-        return shipit.remote('cd ~/<%= appName %>/current && yarn && yarn start:prod');
-      default:
-        return shipit.remote('cd ~/<%= appName %>/current && yarn && yarn start');
-    }
+    return shipit.remote('cd ~/<%= appName %>/current && npm install --production && npm run build:client && npm run migrate:up && npm run start:prod');
   });
 };

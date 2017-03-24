@@ -1,5 +1,4 @@
 const Generator = require('yeoman-generator');
-const yarnInstall = require('yarn-install');
 
 class LoopbackGenerator extends Generator {
   prompting() {
@@ -10,24 +9,28 @@ class LoopbackGenerator extends Generator {
         name    : 'appName',
         message : 'Your application name',
         default : config.name,
+        store   : true
       },
       {
         type    : 'input',
         name    : 'repositoryUrl',
         message : 'Your git repository URL',
         default : '',
+        store   : true
       },
       {
         type    : 'input',
         name    : 'stagingUrl',
         message : 'Your staging url',
         default : '',
+        store   : true
       },
       {
         type    : 'input',
         name    : 'prodUrl',
         message : 'Your production url',
         default : '',
+        store   : true
       },
     ]).then((answers) => {
       this.answers = answers;
@@ -35,9 +38,9 @@ class LoopbackGenerator extends Generator {
   }
 
   install() {
-    yarnInstall([
+    this.npmInstall([
       'shipit-cli',
-      'shipit-deploy',
+      'shipit-deploy'
     ], {
       dev: true,
       cwd: this.destinationRoot(),
@@ -47,6 +50,12 @@ class LoopbackGenerator extends Generator {
   writing() {
     this.fs.copyTpl(
       this.templatePath('**/shipitfile.js'),
+      this.destinationPath(''),
+      this.answers
+    );
+
+    this.fs.copyTpl(
+      this.templatePath('**/*.md'),
       this.destinationPath(''),
       this.answers
     );

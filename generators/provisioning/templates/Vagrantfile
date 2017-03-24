@@ -22,8 +22,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "devops/provisioning/playbook.yml"
-    ansible.inventory_path = "devops/provisioning/hosts/vagrant"
     ansible.limit = 'all'
   end
-
 end
