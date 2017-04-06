@@ -2,10 +2,14 @@
 Generates a Loopback application with a Vagrant virtual machine and an Ansible provisioning for the local machine, a staging machine and a production machine
 
 ## Prerequisites
-You need some tools to
+
+You need to install:
+
 + VirtualBox
-+ vagrant
-+ Ansible :bangbang: You need Ansible 1.9.6, and not version 2
++ Vagrant
++ Npm (via nvm)
++ Ansible (version 2)
++ Yarn
 
 ## Installation
 ```
