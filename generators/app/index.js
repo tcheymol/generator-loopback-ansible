@@ -121,6 +121,8 @@ class LoopbackGenerator extends Generator {
     return Promise.all([
      '.gitignore',
      '.yo-rc.json',
+     '.editorconfig',
+     '.eslintignore',
      'ansible.cfg',
      'database.json',
      'package.json',
