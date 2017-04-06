@@ -64,8 +64,7 @@ class LoopbackGenerator extends Generator {
       this.spawnCommandSync('rm', ['client/config/index.js']);
       this.log('Remove git history');
       this.spawnCommandSync('rm', ['-rf', 'client/.git']);
-      this.log('Remove local client server');
-      //this.spawnCommandSync('rm', ['-rf', 'client/server']);
+
       return Promise.all([
         'client/build/webpack.config.js',
         'client/config/index.js',
@@ -167,10 +166,15 @@ class LoopbackGenerator extends Generator {
    }));
   }
 
-  install() {
+  installServerDependencies() {
+    // @TODO: Understand why this.npmInstall() doesn't work here
+    this.spawnCommandSync('npm', ['install']);
+  }
+
+  installClientDependencies() {
     if (this.answers.addClient) {
       this.destinationRoot('client');
-      this.npmInstall();
+      return this.npmInstall();
     }
   }
 };
