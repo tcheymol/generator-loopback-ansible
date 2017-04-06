@@ -168,14 +168,15 @@ class LoopbackGenerator extends Generator {
   }
 
   installServerDependencies() {
-    // @TODO: Understand why this.npmInstall() doesn't work here
-    this.spawnCommandSync('npm', ['install']);
+    // @TODO: Understand why this.yarnInstall() doesn't work here
+    // It is bound to be linked to yeoman lifecycle
+    this.spawnCommandSync('yarn', ['install']);
   }
 
   installClientDependencies() {
     if (this.answers.addClient) {
       this.destinationRoot('client');
-      return this.npmInstall();
+      return this.yarnInstall();
     }
   }
 };
