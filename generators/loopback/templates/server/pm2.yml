@@ -1,6 +1,0 @@
-apps:
-  name       : <%= appName %>
-  script     : ./server/server.js
-  cwd        : /var/www/<%= appName %>/current
-  instances  : 1
-  exec_mode  : cluster
