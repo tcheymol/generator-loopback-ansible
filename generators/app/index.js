@@ -124,6 +124,7 @@ class LoopbackGenerator extends Generator {
      'ansible.cfg',
      'database.json',
      'package.json',
+     'yarn.lock',
      'pm2.yml',
      'README.md',
      'doc/deployment.md',
