@@ -22,7 +22,44 @@ module.exports = function (shipit) {
     },
   });
 
-  shipit.task('deploy:finish', () => {
-    return shipit.remote('cd ~/<%= appName %>/current && npm install --production && npm run build:client && npm run migrate:up && npm run start:prod');
+  var npmBackInstall = function () {
+    return shipit.remote("cd " + shipit.releasePath + " && yarn install");
+  };
+
+  var npmFrontInstall = function () {
+    return shipit.remote("cd " + shipit.releasePath + "/client && yarn install");
+  };
+
+  var npmFrontClean= function () {
+    return shipit.remote("cd " + shipit.releasePath + "/client && npm run clean");
+  }
+
+  var npmFrontCompile = function () {
+    return shipit.remote("cd " + shipit.releasePath + " && npm run build:client");
+  }
+
+  var runMigrations = function () {
+    return shipit.remote("cd " + shipit.releasePath + " && npm run migrate:up");
+  }
+
+  var restartServer = function () {
+    return shipit.remote("cd " + shipit.releasePath + " && npm run start:prod");
+  }
+
+  shipit.on('deployed', function() {
+    return shipit.start('install');
+  });
+
+  // blTask will block other tasks during its execution (synchronous)
+  shipit.blTask('install', function() {
+    return npmFrontInstall()
+      .then(npmBackInstall)
+      .then(npmFrontClean)
+      .then(npmFrontCompile)
+      .then(runMigrations)
+      .then(restartServer)
+      .then(function () {
+        shipit.log('Install Done!\n');
+      });
   });
 };

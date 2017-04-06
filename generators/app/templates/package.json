@@ -14,8 +14,7 @@
     "posttest": "npm run lint && nsp check",
     "start": "node .",
     "start:prod": "NODE_ENV=production pm2 kill && pm2 startOrRestart pm2.yml",
-    "stop": "pm2 kill",
-    "postinstall": "cd client && npm install --production"
+    "stop": "pm2 kill"
   },
   "dependencies": {
     "compression": "^1.0.3",

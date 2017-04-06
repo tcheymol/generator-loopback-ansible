@@ -10,7 +10,7 @@
 ```
 sudo su - www-data
 cd <%= appName %>/current/client && npm rebuild node-sass
-NODE_ENV=production npm run compile
+cd ../ && npm run build:client
 ```
 
 - Run migration if needed:
@@ -30,14 +30,13 @@ You can also browse Loopback's explorer at : `http://10.0.0.10/explorer`
 
 ### Local dev server
 
-The webpack hot reloading is really slow in a vagrant.
+The webpack live-reloading is really slow in a vagrant. We prefer to run a local server to compile the frontend code. Use the server in the vagrant as an external API in dev environment.
+
 To develop, run in your local environment (not the vagrant):
 
 ```
-cd client npm run dev
+cd client && npm run dev
 ```
-
-It will create a local server to compile the frontend code. Use the server in the vagrant as an API.
 
 ### Migrations:
 
