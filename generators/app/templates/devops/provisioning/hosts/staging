@@ -1,2 +1,2 @@
 [staging]
-<%= stagingUrl %> ansible_ssh_user=root
+<%= stagingUrl %> ansible_ssh_user=ubuntu

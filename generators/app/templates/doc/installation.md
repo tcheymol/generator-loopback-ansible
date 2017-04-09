@@ -9,7 +9,7 @@
 - Compile the frontend code:
 ```
 sudo su - www-data
-cd <%= appName %>/current/client && npm rebuild node-sass
+cd /var/www/<%= appName %>/current/client && npm rebuild node-sass
 cd ../ && npm run build:client
 ```
 
@@ -20,7 +20,7 @@ cd /var/www/<%= appName %>/current && npm run migrate:up
 
 - Start the server:
 ```
-cd <%= appName %>/current && node server/server.js
+cd /var/www/<%= appName %>/current && node server/server.js
 ```
 
 Now, you are set up !

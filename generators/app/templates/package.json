@@ -7,7 +7,7 @@
     "test:backend": "NODE_ENV=test istanbul cover mocha -- tests/**/*.js -R spec",
     "test:frontend": "cd client && npm test",
     "test": "npm run test:backend && npm run test:frontend",
-    "build:client": "NODE_ENV=production cd client && npm run compile",
+    "build:client": "cd client && NODE_ENV=production npm run compile",
     "migrate:create": "db-migrate create --sql-file",
     "migrate:down": "db-migrate down -e $NODE_ENV",
     "migrate:up": "db-migrate up -e $NODE_ENV",
@@ -32,6 +32,8 @@
     "pg": "^6.1.0",
     "pm2": "^2.4.2",
     "serve-favicon": "^2.0.1",
+    "shipit-cli": "^3.0.0",
+    "shipit-deploy": "^2.4.0",
     "strong-error-handler": "^1.0.1"
   },
   "devDependencies": {

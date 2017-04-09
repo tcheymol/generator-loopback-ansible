@@ -22,28 +22,30 @@ module.exports = function (shipit) {
     },
   });
 
-  var npmBackInstall = function () {
-    return shipit.remote("cd " + shipit.releasePath + " && yarn install");
+  const yarn = '/usr/local/lib/npm/bin/yarn';
+
+  const npmBackInstall = function () {
+    return shipit.remote(`cd ${shipit.releasePath} && ${yarn} install`);
   };
 
-  var npmFrontInstall = function () {
-    return shipit.remote("cd " + shipit.releasePath + "/client && yarn install");
+  const npmFrontInstall = function () {
+    return shipit.remote(`cd ${shipit.releasePath}/client && ${yarn} install`);
   };
 
-  var npmFrontClean= function () {
-    return shipit.remote("cd " + shipit.releasePath + "/client && npm run clean");
+  const npmFrontClean= function () {
+    return shipit.remote(`cd ${shipit.releasePath}/client && npm run clean`);
   }
 
-  var npmFrontCompile = function () {
-    return shipit.remote("cd " + shipit.releasePath + " && npm run build:client");
+  const npmFrontCompile = function () {
+    return shipit.remote(`cd ${shipit.releasePath} && npm run build:client`);
   }
 
-  var runMigrations = function () {
-    return shipit.remote("cd " + shipit.releasePath + " && npm run migrate:up");
+  const runMigrations = function () {
+    return shipit.remote(`cd ${shipit.releasePath} && npm run migrate:up`);
   }
 
-  var restartServer = function () {
-    return shipit.remote("cd " + shipit.releasePath + " && npm run start:prod");
+  const restartServer = function () {
+    return shipit.remote(`cd ${shipit.releasePath} && npm run start:prod`);
   }
 
   shipit.on('deployed', function() {
@@ -52,14 +54,17 @@ module.exports = function (shipit) {
 
   // blTask will block other tasks during its execution (synchronous)
   shipit.blTask('install', function() {
-    return npmFrontInstall()
-      .then(npmBackInstall)
+    return npmBackInstall()
+      .then(npmFrontInstall)
       .then(npmFrontClean)
       .then(npmFrontCompile)
       .then(runMigrations)
       .then(restartServer)
-      .then(function () {
-        shipit.log('Install Done!\n');
+      .then(() => {
+        shipit.log('Deployment successfull!\n');
+      })
+      .catch(function (err) {
+        shipit.log(`Deployment failed: ${err}`);
       });
   });
 };
