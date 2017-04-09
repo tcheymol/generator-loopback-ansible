@@ -49,7 +49,7 @@ class LoopbackGenerator extends Generator {
     });
   }
 
-  addClient() {
+  _addClient() {
     if (this.answers.addClient) {
       this.log('Cloning react-redux-starter-kit');
       this.spawnCommandSync('git', [
@@ -78,46 +78,7 @@ class LoopbackGenerator extends Generator {
     }
   }
 
-  installServerTemplate () {
-    return Promise.all([
-     'server/.eslintrc',
-     'server/component-config.json',
-     'server/config.json',
-     'server/datasources.json',
-     'server/datasources.local.js',
-     'server/middleware.development.json',
-     'server/middleware.json',
-     'server/model-config.json',
-     'server/server.js',
-     'server/models/user.js',
-     'server/models/user.json',
-     'server/boot/authentication.js',
-     'server/boot/create-admin.js',
-     'tests/test.js',
-   ].map(file => {
-     return this.fs.copyTpl(
-       this.templatePath(file),
-       this.destinationPath(file),
-       this.answers
-     );
-   }));
-  }
-
-  installMigrationsTemplate () {
-    return Promise.all([
-     'migrations/20161206103004-create-user.js',
-     'migrations/sqls/20161206103004-create-user-up.sql',
-     'migrations/sqls/20161206103004-create-user-down.sql',
-    ].map(file => {
-      return this.fs.copyTpl(
-        this.templatePath(file),
-        this.destinationPath(file),
-        this.answers
-      );
-    }));
-  }
-
-  installConfigurationTemplate () {
+  _addConfigurationTemplates () {
     return Promise.all([
      '.gitignore',
      '.yo-rc.json',
@@ -144,7 +105,21 @@ class LoopbackGenerator extends Generator {
    }));
   }
 
-  installProvisioning () {
+  _addMigrationsTemplates () {
+    return Promise.all([
+     'migrations/20161206103004-create-user.js',
+     'migrations/sqls/20161206103004-create-user-up.sql',
+     'migrations/sqls/20161206103004-create-user-down.sql',
+    ].map(file => {
+      return this.fs.copyTpl(
+        this.templatePath(file),
+        this.destinationPath(file),
+        this.answers
+      );
+    }));
+  }
+
+  _addProvisioningTemplates () {
     this.fs.copy(
       this.templatePath('devops/provisioning/roles'),
       this.destinationPath('devops/provisioning/roles'),
@@ -169,15 +144,46 @@ class LoopbackGenerator extends Generator {
    }));
   }
 
-  installServerDependencies() {
-    // @TODO: Understand why this.yarnInstall() doesn't work here
-    // It is bound to be linked to yeoman lifecycle
-    this.spawnCommandSync('yarn', ['install']);
+  _addServerTemplates () {
+    return Promise.all([
+     'server/.eslintrc',
+     'server/component-config.json',
+     'server/config.json',
+     'server/datasources.json',
+     'server/datasources.local.js',
+     'server/middleware.development.json',
+     'server/middleware.json',
+     'server/model-config.json',
+     'server/server.js',
+     'server/models/user.js',
+     'server/models/user.json',
+     'server/boot/authentication.js',
+     'server/boot/create-admin.js',
+     'tests/test.js',
+   ].map(file => {
+     return this.fs.copyTpl(
+       this.templatePath(file),
+       this.destinationPath(file),
+       this.answers
+     );
+   }));
   }
 
-  installClientDependencies() {
+  _installDependencies() {
+    return this.yarnInstall();
+  }
+
+  installProject() {
+    return this._addConfigurationTemplates()
+    .then(() => this._addServerTemplates())
+    .then(() => this._addMigrationsTemplates())
+    .then(() => this._addClient())
+    .then(() => this._installDependencies())
+  }
+
+  end() {
     if (this.answers.addClient) {
-      this.destinationRoot('client');
+      this.destinationRoot('client')
       return this.yarnInstall();
     }
   }

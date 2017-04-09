@@ -15,7 +15,7 @@ cd ../ && npm run build:client
 
 - Run migration if needed:
 ```
-cd <%= appName %>/current && npm run migrate:up
+cd /var/www/<%= appName %>/current && npm run migrate:up
 ```
 
 - Start the server:
