@@ -176,6 +176,7 @@ class LoopbackGenerator extends Generator {
   installProject() {
     return this._addConfigurationTemplates()
     .then(() => this._addServerTemplates())
+    .then(() => this._addProvisioningTemplates())
     .then(() => this._addMigrationsTemplates())
     .then(() => this._addClient())
     .then(() => this._installDependencies())
