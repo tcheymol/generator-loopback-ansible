@@ -12,11 +12,15 @@ You need to install:
 + Yarn
 
 ## Installation
+
 ```
+git clone git@github.com:cRicateau/generator-loopback-ansible.git
+cd generator-loopback-ansible && npm link
 npm install -g generator-loopback-ansible
 ```
 
 ## Usage
+
 Create a new project
 ```
 mkdir myAwesomeProject
