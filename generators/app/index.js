@@ -43,6 +43,13 @@ class LoopbackGenerator extends Generator {
         name    : 'prodUrl',
         message : 'Your production url',
         default : '',
+      },
+      {
+        type    : 'list',
+        name    : 'vagrantOs',
+        message : 'Choose your Vagrant OS',
+        default : 'xenial',
+        choices : ['xenial', 'trusty']
       }
     ]).then((answers) => {
       this.answers = answers;

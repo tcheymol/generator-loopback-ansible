@@ -32,3 +32,7 @@ yo loopback-ansible
 ```
 
 Then follow the generated documentation.
+
+## Troubleshooting
+
+At the moment, the `xubuntu` distrib doesn't support the vagrant `synced_folder` parameter with `xenial` OS, please choose `trusty` option if you are in that case
