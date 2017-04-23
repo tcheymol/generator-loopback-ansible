@@ -1,0 +1,9 @@
+apps:
+  name       : <%= appName %>
+  watch      : false
+  script     : ./server/server.js
+  instances  : max
+  exec_mode  : cluster
+  error_file : ./logs/<%= appName %>.err.log
+  out_file   : ./logs/<%= appName %>.out.log
+  combine_logs: true

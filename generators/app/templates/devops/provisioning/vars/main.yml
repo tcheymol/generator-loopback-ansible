@@ -1,0 +1,9 @@
+---
+#PUT here your main variable
+timezone: Europe/Paris
+project_name: <%= appName %>
+port: 80
+apt_install:
+  - git
+
+postgresql_version: 9.6
