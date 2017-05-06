@@ -87,7 +87,7 @@ class LoopbackGenerator extends Generator {
 
   _addConfigurationTemplates () {
     return Promise.all([
-     '.gitignore',
+     'gitignore',
      '.yo-rc.json',
      '.editorconfig',
      '.eslintignore',
@@ -190,6 +190,9 @@ class LoopbackGenerator extends Generator {
   }
 
   end() {
+    // .gitgnore is not included by npm publish https://github.com/npm/npm/issues/3763
+    // It can be bypassed by renaming a gitgnore file to .gitignore
+    this.spawnCommandSync('mv', ['./gitignore', './.gitignore']);
     if (this.answers.addClient) {
       this.destinationRoot('client')
       return this.yarnInstall();
