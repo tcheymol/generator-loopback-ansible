@@ -5,11 +5,12 @@ Generates a Loopback application with a Vagrant virtual machine and an Ansible p
 
 You need to install:
 
-+ VirtualBox
-+ Vagrant
-+ Npm (via nvm)
-+ Ansible (version 2)
-+ Yarn
++ Yeoman
++ [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
++ [Vagrant](https://www.vagrantup.com/downloads.html)
++ Node.js (> 6.x) + Npm (via nvm)
++ [Ansible (version 2)](http://docs.ansible.com/ansible/intro_installation.html)
++ [Yarn](https://yarnpkg.com/lang/en/docs/install/)
 
 ## Installation
 
@@ -34,3 +35,7 @@ Then follow the generated documentation.
 ## Troubleshooting
 
 At the moment, the `xubuntu` distrib doesn't support the vagrant `synced_folder` parameter with `xenial` OS, please choose `trusty` option if you are in that case
+
+ ## Contributing to the generator
+
+ This generator is open-sourced and can be improved in many ways, feel free to contribute [here](https://github.com/tcheymol/generator-loopback-ansible) !
