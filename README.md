@@ -5,11 +5,12 @@ Generates a Loopback application with a Vagrant virtual machine and an Ansible p
 
 You need to install:
 
-+ VirtualBox
-+ Vagrant
-+ Npm (via nvm)
-+ Ansible (version 2)
-+ Yarn
++ Yeoman
++ [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
++ [Vagrant](https://www.vagrantup.com/downloads.html)
++ Node.js (> 6.x) + Npm (via nvm)
++ [Ansible (version 2)](http://docs.ansible.com/ansible/intro_installation.html)
++ [Yarn](https://yarnpkg.com/lang/en/docs/install/)
 
 ## Installation
 
