@@ -6,14 +6,7 @@
 
 - Connect to the vagrant: `vagrant ssh`
 
-- Compile the frontend code:
-```
-sudo su - www-data
-cd /var/www/<%= appName %>/current/client && npm rebuild node-sass
-cd ../ && npm run build:client
-```
-
-- Run migration if needed:
+- Run migrations:
 ```
 cd /var/www/<%= appName %>/current && npm run migrate:up
 ```
@@ -33,7 +26,7 @@ You can also browse Loopback's explorer at : `http://10.0.0.10/explorer`
  Webpack can watch your frontend files and recompiles the code automatically as soon as you change your code (live-reloading).
 
  :bangbang: The webpack live-reloading is really slow in a vagrant. To avoid that, run the webpack-dev-server on your local environment:
- - `cd client && npm run dev`.
+ - `cd client && npm start`.
 
 
  Think of the loopback server in the vagrant as an external API that you will query from your reactjs app.
@@ -56,6 +49,8 @@ You can also browse Loopback's explorer at : `http://10.0.0.10/explorer`
  ```
 
 ### Migrations:
+
+In your vagrant, run:
 
 - Create: `npm run migrate:create`
 - Down: `npm run migrate:down`
