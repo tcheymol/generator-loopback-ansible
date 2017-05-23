@@ -13,7 +13,7 @@ module.exports = function (shipit) {
       shallowClone: true,
     },
     staging: {
-      branch: 'staging',
+      branch: 'master',
       servers: 'www-data@<%= stagingUrl %>',
     },
     prod: {

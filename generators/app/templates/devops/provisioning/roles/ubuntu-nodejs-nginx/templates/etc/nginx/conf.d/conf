@@ -19,13 +19,11 @@ server {
 
   location {{ node_route }} {
       proxy_pass http://127.0.0.1:{{ node_port }};
-      rewrite {{ node_route }}/(.*) /$1 break;
   }
 
-  location ~* \.(css|txt|xml|js|gif|jpe?g|png|ico)$ {
-      expires 1y;
+  location /explorer {
+      proxy_pass http://127.0.0.1:{{ node_port }};
   }
-
 }
 
 # To add HTTPS, uncomment what you need and add ssl_certificate
