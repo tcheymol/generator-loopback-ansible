@@ -14,11 +14,11 @@ module.exports = function (shipit) {
     },
     staging: {
       branch: 'master',
-      servers: 'www-data@<%= stagingUrl %>',
+      servers: 'www-data@<%= stagingIpAddress %>',
     },
     prod: {
       branch: 'master',
-      servers: 'www-data@<%= prodUrl %>',
+      servers: 'www-data@<%= prodIpAddress %>',
     },
   });
 

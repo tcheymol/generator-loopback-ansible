@@ -34,14 +34,14 @@ class LoopbackGenerator extends Generator {
       },
       {
         type    : 'input',
-        name    : 'stagingUrl',
-        message : 'Your staging url',
+        name    : 'stagingIpAddress',
+        message : 'Your staging IP address',
         default : '',
       },
       {
         type    : 'input',
-        name    : 'prodUrl',
-        message : 'Your production url',
+        name    : 'prodIpAddress',
+        message : 'Your production IP address',
         default : '',
       },
       {
