@@ -36,6 +36,9 @@ Then follow the generated documentation.
 
 At the moment, the `xubuntu` distrib doesn't support the vagrant `synced_folder` parameter with `xenial` OS, please choose `trusty` option if you are in that case
 
- ## Contributing to the generator
+## Contributing to the generator
 
- This generator is open-sourced and can be improved in many ways, feel free to contribute [here](https://github.com/tcheymol/generator-loopback-ansible) !
+This generator is open-sourced and can be improved in many ways, feel free to contribute [here](https://github.com/tcheymol/generator-loopback-ansible) !
+
+- Clone the repo: `git clone git@github.com:tcheymol/generator-loopback-ansible.git`
+- Run `npm link`

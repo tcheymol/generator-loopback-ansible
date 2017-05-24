@@ -7,7 +7,7 @@
     "test:backend": "NODE_ENV=test istanbul cover mocha -- tests/**/*.js -R spec",
     "test:frontend": "cd client && npm test",
     "test": "npm run test:backend && npm run test:frontend",
-    "build:client": "cd client && NODE_ENV=production npm run compile",
+    "build:client": "cd client && npm run build",
     "migrate:create": "db-migrate create --sql-file",
     "migrate:down": "db-migrate down -e $NODE_ENV",
     "migrate:up": "db-migrate up -e $NODE_ENV",

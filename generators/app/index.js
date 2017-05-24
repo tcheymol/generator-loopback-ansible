@@ -34,14 +34,14 @@ class LoopbackGenerator extends Generator {
       },
       {
         type    : 'input',
-        name    : 'stagingUrl',
-        message : 'Your staging url',
+        name    : 'stagingIpAddress',
+        message : 'Your staging IP address',
         default : '',
       },
       {
         type    : 'input',
-        name    : 'prodUrl',
-        message : 'Your production url',
+        name    : 'prodIpAddress',
+        message : 'Your production IP address',
         default : '',
       },
       {
@@ -51,38 +51,43 @@ class LoopbackGenerator extends Generator {
         default : 'xenial',
         choices : ['xenial', 'trusty']
       }
-    ]).then((answers) => {
+    ]).then(answers => {
       this.answers = answers;
     });
   }
 
-  _addClient() {
-    if (this.answers.addClient) {
-      this.log('Cloning react-redux-starter-kit');
-      this.spawnCommandSync('git', [
-        'clone',
-        '--branch',
-        'v3.0.0-alpha.2',
-        'https://github.com/davezuko/react-redux-starter-kit.git',
-        'client'
-      ]);
-      this.log('Updating project config to use webpack-dev-server');
-      this.spawnCommandSync('rm', ['client/build/webpack.config.js']);
-      this.spawnCommandSync('rm', ['client/config/index.js']);
-      this.log('Remove git history');
-      this.spawnCommandSync('rm', ['-rf', 'client/.git']);
+  _addReactBoilerplate() {
+    this.log('Cloning react-boilerplate');
+    this.spawnCommandSync('git', [
+      'clone',
+      '--branch',
+      'v3.4.0',
+      'https://github.com/react-boilerplate/react-boilerplate.git',
+      'client'
+    ]);
 
-      return Promise.all([
-        'client/build/webpack.config.js',
-        'client/config/index.js',
-      ].map(file => {
-        return this.fs.copyTpl(
-          this.templatePath(file),
-          this.destinationPath(file),
-          this.answers
-        );
-      }));
+    this.spawnCommandSync('rm', ['client/internals/webpack/webpack.base.babel.js']);
+    this.spawnCommandSync('rm', ['client/.nginx.conf']);
+
+    return Promise.all([
+      'client/internals/webpack/webpack.base.babel.js',
+    ].map(file => {
+      return this.fs.copyTpl(
+        this.templatePath(file),
+        this.destinationPath(file),
+        this.answers
+      );
+    }));
+  }
+
+  _addClient() {
+    if (!this.answers.addClient) {
+      return;
     }
+
+    this._addReactBoilerplate()
+    this.log('Remove client git history');
+    this.spawnCommandSync('rm', ['-rf', 'client/.git']);
   }
 
   _addConfigurationTemplates () {
@@ -194,9 +199,12 @@ class LoopbackGenerator extends Generator {
     // It can be bypassed by renaming a gitgnore file to .gitignore
     this.spawnCommandSync('mv', ['./gitignore', './.gitignore']);
     if (this.answers.addClient) {
-      this.destinationRoot('client')
-      return this.yarnInstall();
-    }
+      this.destinationRoot('client');
+      this.spawnCommandSync('npm', ['uninstall', 'image-webpack-loader', '--save-dev']);
+      this.spawnCommandSync('npm', ['run', 'setup']);
+      this.spawnCommandSync('npm', ['run', 'build']);
+    };
+    this.log('Everything went well, enjoy your new app!')
   }
 };
 
