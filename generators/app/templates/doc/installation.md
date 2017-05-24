@@ -48,7 +48,7 @@ You can also browse Loopback's explorer at : `http://10.0.0.10/explorer`
  let options = {};
 
  if (process.env.NODE_ENV === 'development') {
-   baseApiPath = 'https://10.0.0.10';
+   baseApiPath = 'http://10.0.0.10';
    options.credentials = 'include'; // needed for CORS requests
  }
 
