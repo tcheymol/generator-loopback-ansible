@@ -198,14 +198,13 @@ class LoopbackGenerator extends Generator {
     // .gitgnore is not included by npm publish https://github.com/npm/npm/issues/3763
     // It can be bypassed by renaming a gitgnore file to .gitignore
     this.spawnCommandSync('mv', ['./gitignore', './.gitignore']);
-    if (!this.answers.addClient) {
-      return;
+    if (this.answers.addClient) {
+      this.destinationRoot('client');
+      this.spawnCommandSync('npm', ['uninstall', 'image-webpack-loader', '--save-dev']);
+      this.spawnCommandSync('npm', ['run', 'setup']);
+      this.spawnCommandSync('npm', ['run', 'build']);
     };
-
-    this.destinationRoot('client');
-    this.spawnCommandSync('npm', ['uninstall', 'image-webpack-loader', '--save-dev']);
-    this.spawnCommandSync('npm', ['run', 'setup']);
-    this.spawnCommandSync('npm', ['run', 'build']);
+    this.log('Everything went well, enjoy your new app!')
   }
 };
 
