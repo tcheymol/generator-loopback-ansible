@@ -44,7 +44,7 @@
     "loopback#static": [{
       "name": "site",
       "paths": ["/"],
-      "params": "$!../client/dist"
+      "params": "$!../<%= clientPublicDirectory %>"
     }]
   },
   "final": {

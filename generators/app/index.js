@@ -9,10 +9,11 @@ class LoopbackGenerator extends Generator {
         message : 'Your application name',
       },
       {
-        type    : 'confirm',
-        name    : 'addClient',
-        message : 'Do you want a react-redux client ?',
-        default : true,
+        type    : 'list',
+        name    : 'client',
+        message : 'Choose your client',
+        default : 'react',
+        choices : ['react', 'angular4', 'none']
       },
       {
         type    : 'input',
@@ -29,7 +30,7 @@ class LoopbackGenerator extends Generator {
       {
         type    : 'input',
         name    : 'repositoryUrl',
-        message : 'Your git repository URL',
+        message : 'Your git repository URL (used for deployment script)',
         default : '',
       },
       {
@@ -41,7 +42,7 @@ class LoopbackGenerator extends Generator {
       {
         type    : 'input',
         name    : 'prodIpAddress',
-        message : 'Your production IP address',
+        message : '[Optionnal] Your production IP address',
         default : '',
       },
       {
@@ -53,6 +54,11 @@ class LoopbackGenerator extends Generator {
       }
     ]).then(answers => {
       this.answers = answers;
+      this.answers.clientPublicDirectory = 'client/dist';
+
+      if (this.answers.client === 'react') {
+        this.answers.clientPublicDirectory = 'client/build';
+      }
     });
   }
 
@@ -80,35 +86,63 @@ class LoopbackGenerator extends Generator {
     }));
   }
 
+  _addAngularBoilerplate() {
+    this.log('Cloning angular starter');
+    this.spawnCommandSync('git', [
+      'clone',
+      '--branch',
+      'v5.2.0',
+      'https://github.com/AngularClass/angular-starter.git',
+      'client'
+    ]);
+  }
+
   _addClient() {
-    if (!this.answers.addClient) {
+    if (this.answers.client === 'none') {
       return;
     }
 
-    this._addReactBoilerplate()
+    if (this.answers.client === 'react') {
+      this._addReactBoilerplate()
+    }
+
+    if (this.answers.client === 'angular4') {
+      this._addAngularBoilerplate()
+    }
+
     this.log('Remove client git history');
     this.spawnCommandSync('rm', ['-rf', 'client/.git']);
   }
 
   _addConfigurationTemplates () {
-    return Promise.all([
-     'gitignore',
-     '.yo-rc.json',
-     '.editorconfig',
-     '.eslintignore',
-     'ansible.cfg',
-     'database.json',
-     'package.json',
-     'yarn.lock',
-     'pm2.yml',
-     'README.md',
-     'doc/deployment.md',
-     'doc/installation.md',
-     'doc/provisioning.md',
-     'doc/tests.md',
-     'shipitfile.js',
-     'Vagrantfile',
-   ].map(file => {
+    const files = [
+      'gitignore',
+      '.yo-rc.json',
+      '.editorconfig',
+      '.eslintignore',
+      'ansible.cfg',
+      'database.json',
+      'package.json',
+      'yarn.lock',
+      'pm2.yml',
+      'README.md',
+      'doc/deployment.md',
+      'doc/provisioning.md',
+      'doc/tests.md',
+      'shipitfile.js',
+      'Vagrantfile',
+    ];
+
+    switch(this.answers.client) {
+      case 'react':
+        files.push('doc/installation-react.md');
+      case 'angular4':
+        files.push('doc/installation-angular.md');
+      default:
+        files.push('doc/installation-no-client.md');
+    }
+
+    return Promise.all(files.map(file => {
      return this.fs.copyTpl(
        this.templatePath(file),
        this.destinationPath(file),
@@ -198,11 +232,17 @@ class LoopbackGenerator extends Generator {
     // .gitgnore is not included by npm publish https://github.com/npm/npm/issues/3763
     // It can be bypassed by renaming a gitgnore file to .gitignore
     this.spawnCommandSync('mv', ['./gitignore', './.gitignore']);
-    if (this.answers.addClient) {
+    if (this.answers.client === 'react') {
       this.destinationRoot('client');
       this.spawnCommandSync('npm', ['uninstall', 'image-webpack-loader', '--save-dev']);
       this.spawnCommandSync('npm', ['run', 'setup']);
       this.spawnCommandSync('npm', ['run', 'build']);
+    };
+
+    if (this.answers.client === 'angular4') {
+      this.destinationRoot('client');
+      this.spawnCommandSync('npm', ['install']);
+      this.spawnCommandSync('npm', ['run', 'build:prod']);
     };
     this.log('Everything went well, enjoy your new app!')
   }
