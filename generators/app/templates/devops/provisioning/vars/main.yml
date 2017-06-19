@@ -2,6 +2,7 @@
 #PUT here your main variable
 timezone: Europe/Paris
 project_name: <%= appName %>
+client_public_file_directory: <%= clientPublicDirectory %>
 port: 80
 apt_install:
   - git

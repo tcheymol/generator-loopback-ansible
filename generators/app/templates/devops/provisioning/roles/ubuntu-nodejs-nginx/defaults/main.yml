@@ -2,4 +2,3 @@
 node_route: "/api"
 node_port: 3000
 index_default: "index.html"
-client_public_file_directory: "client/build"
