@@ -58,6 +58,15 @@ class LoopbackGenerator extends Generator {
 
       if (this.answers.client === 'react') {
         this.answers.clientPublicDirectory = 'client/build';
+        this.answers.installationFile = 'doc/installation-react.md';
+      }
+
+      if (this.answers.client === 'angular4') {
+        this.answers.installationFile = 'doc/installation-angular.md';
+      }
+
+      if (this.answers.client === 'none') {
+        this.answers.installationFile = 'installation-no-client.md';
       }
     });
   }
@@ -131,16 +140,8 @@ class LoopbackGenerator extends Generator {
       'doc/tests.md',
       'shipitfile.js',
       'Vagrantfile',
+      this.answers.installationFile
     ];
-
-    switch(this.answers.client) {
-      case 'react':
-        files.push('doc/installation-react.md');
-      case 'angular4':
-        files.push('doc/installation-angular.md');
-      default:
-        files.push('doc/installation-no-client.md');
-    }
 
     return Promise.all(files.map(file => {
      return this.fs.copyTpl(

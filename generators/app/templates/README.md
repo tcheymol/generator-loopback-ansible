@@ -1,6 +1,7 @@
 See the docs:
 
-- [Installation](doc/installation.md)
+- [Installation](<%= installationFile %>)
 - [Deployment](doc/deployment.md)
+- [Database](doc/database.md)
 - [Server installation](doc/provisioning.md)
 - [Tests](doc/tests.md)
