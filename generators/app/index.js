@@ -82,7 +82,14 @@ class LoopbackGenerator extends Generator {
     ]);
 
     this.spawnCommandSync('rm', ['client/internals/webpack/webpack.base.babel.js']);
-    this.spawnCommandSync('rm', ['client/.nginx.conf']);
+    this.spawnCommandSync('rm', ['client/appveyor.yml']);
+    this.spawnCommandSync('rm', ['client/LICENSE.md']);
+    this.spawnCommandSync('rm', ['client/Changelog.md']);
+    this.spawnCommandSync('rm', ['client/CODE_OF_CONDUCT.md']);
+    this.spawnCommandSync('rm', ['client/.lgtm']);
+    this.spawnCommandSync('rm', ['client/MAINTAINERS']);
+    this.spawnCommandSync('rm', ['-rf', 'client/.git']);
+    this.spawnCommandSync('rm', ['-rf', 'client/.github']);
 
     return Promise.all([
       'client/internals/webpack/webpack.base.babel.js',
@@ -104,6 +111,9 @@ class LoopbackGenerator extends Generator {
       'https://github.com/AngularClass/angular-starter.git',
       'client'
     ]);
+
+    this.log('Remove client git history');
+    this.spawnCommandSync('rm', ['-rf', 'client/.git']);
   }
 
   _addClient() {
@@ -118,9 +128,6 @@ class LoopbackGenerator extends Generator {
     if (this.answers.client === 'angular4') {
       this._addAngularBoilerplate()
     }
-
-    this.log('Remove client git history');
-    this.spawnCommandSync('rm', ['-rf', 'client/.git']);
   }
 
   _addConfigurationTemplates () {
@@ -238,6 +245,7 @@ class LoopbackGenerator extends Generator {
       this.spawnCommandSync('npm', ['uninstall', 'image-webpack-loader', '--save-dev']);
       this.spawnCommandSync('npm', ['run', 'setup']);
       this.spawnCommandSync('npm', ['run', 'build']);
+      this.spawnCommandSync('rm', ['-rf', '.git']);
     };
 
     if (this.answers.client === 'angular4') {
