@@ -33,7 +33,7 @@
     "pm2": "^2.4.2",
     "serve-favicon": "^2.0.1",
     "shipit-cli": "^3.0.0",
-    "shipit-deploy": "^2.4.0",
+    "shipit-deploy": "^2.5.1",
     "strong-error-handler": "^1.0.1"
   },
   "devDependencies": {
