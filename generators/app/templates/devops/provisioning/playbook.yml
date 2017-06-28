@@ -1,4 +1,13 @@
 ---
+# It will install python2 if missing (but checks first so no expensive repeated apt updates)
+
+- hosts: all
+  gather_facts: False
+  become: true
+  tasks:
+  - name: install python 2
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
 
 - name: Provisioning <%= appName %>
   hosts: all
