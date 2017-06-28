@@ -32,10 +32,6 @@ module.exports = function (shipit) {
     return shipit.remote(`cd ${shipit.releasePath}/client && ${yarn} install`);
   };
 
-  const npmFrontClean= function () {
-    return shipit.remote(`cd ${shipit.releasePath}/client && npm run clean`);
-  }
-
   const npmFrontCompile = function () {
     return shipit.remote(`cd ${shipit.releasePath} && npm run build:client`);
   }
@@ -56,7 +52,6 @@ module.exports = function (shipit) {
   shipit.blTask('install', function() {
     return npmBackInstall()
       .then(npmFrontInstall)
-      .then(npmFrontClean)
       .then(npmFrontCompile)
       .then(runMigrations)
       .then(restartServer)
