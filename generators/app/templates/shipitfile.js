@@ -25,22 +25,27 @@ module.exports = function (shipit) {
   const yarn = '/usr/local/lib/npm/bin/yarn';
 
   const npmBackInstall = function () {
+      shipit.log('INSTALL BACKEND NODE_MODULES');
     return shipit.remote(`cd ${shipit.releasePath} && ${yarn} install`);
   };
 
   const npmFrontInstall = function () {
+      shipit.log('INSTALLING FRONTEND NODE_MODULES');
     return shipit.remote(`cd ${shipit.releasePath}/client && ${yarn} install`);
   };
 
   const npmFrontCompile = function () {
-    return shipit.remote(`cd ${shipit.releasePath} && npm run build:client`);
+    shipit.log('START COMPILING FRONTEND CODE');
+    return shipit.remote(`cd ${shipit.releasePath} && npm run build:client &> /dev/null`);
   }
 
   const runMigrations = function () {
+    shipit.log('RUNNNING MIGRATIONS');
     return shipit.remote(`cd ${shipit.releasePath} && npm run migrate:up`);
   }
 
   const restartServer = function () {
+    shipit.log('RESTARTING SERVER');
     return shipit.remote(`cd ${shipit.releasePath} && npm run start:prod`);
   }
 
