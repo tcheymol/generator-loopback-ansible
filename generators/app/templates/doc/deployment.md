@@ -1,9 +1,12 @@
 ## The deployment
 
-Create a git repository: `git init`
-Add this repository on a remote git url (github for example).
-Configure the shipitfile with the remote repository url and the server IP address if you haven't done it yet.
+- Create a git repository: `git init`
 
+- Add this repository on a remote git url (github for example).
+
+- Configure the shipitfile with the remote repository url and the server IP address if you haven't done it yet.
+
+- Launch deploy script:
 ```bash
 ./node_modules/.bin/shipit staging deploy
 ```
