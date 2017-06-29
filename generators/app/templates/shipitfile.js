@@ -49,7 +49,7 @@ module.exports = function (shipit) {
     return shipit.remote(`cd ${shipit.releasePath} && npm run start:prod`);
   }
 
-  shipit.on('deployed', function() {
+  shipit.on('updated', function() {
     return shipit.start('install');
   });
 
