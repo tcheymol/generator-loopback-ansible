@@ -223,17 +223,12 @@ class LoopbackGenerator extends Generator {
    }));
   }
 
-  _installDependencies() {
-    return this.yarnInstall();
-  }
-
   installProject() {
     return this._addConfigurationTemplates()
     .then(() => this._addServerTemplates())
     .then(() => this._addProvisioningTemplates())
     .then(() => this._addMigrationsTemplates())
     .then(() => this._addClient())
-    .then(() => this._installDependencies())
   }
 
   end() {
@@ -243,16 +238,8 @@ class LoopbackGenerator extends Generator {
     if (this.answers.client === 'react') {
       this.destinationRoot('client');
       this.spawnCommandSync('npm', ['uninstall', 'image-webpack-loader', '--save-dev']);
-      this.spawnCommandSync('npm', ['run', 'setup']);
-      this.spawnCommandSync('npm', ['run', 'build']);
-      this.spawnCommandSync('rm', ['-rf', '.git']);
     };
 
-    if (this.answers.client === 'angular4') {
-      this.destinationRoot('client');
-      this.spawnCommandSync('npm', ['install']);
-      this.spawnCommandSync('npm', ['run', 'build:prod']);
-    };
     this.log('Everything went well, enjoy your new app!')
   }
 };
