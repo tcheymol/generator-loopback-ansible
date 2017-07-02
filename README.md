@@ -27,11 +27,6 @@ Install the generator:
 npm install -g generator-loopback-ansible
 ```
 
-## What's next ?
-
-- Vault ansible files
-- Choice between Loopback, Express and Sailjs for the backend
-
 ## Usage
 
 Create a new project:
@@ -50,6 +45,11 @@ yo loopback-ansible
 ```
 
 Then follow the generated documentation installation steps.
+
+## What's next ?
+
+- Vault ansible files
+- Choice between Loopback, Express and Sailjs for the backend
 
 ## Troubleshooting
 
