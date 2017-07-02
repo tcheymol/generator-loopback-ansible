@@ -238,6 +238,8 @@ class LoopbackGenerator extends Generator {
     if (this.answers.client === 'react') {
       this.destinationRoot('client');
       this.spawnCommandSync('npm', ['uninstall', 'image-webpack-loader', '--save-dev']);
+      this.spawnCommandSync('npm', ['run', 'setup']);
+      this.spawnCommandSync('rm', ['-rf', '.git']);
     };
 
     this.log('Everything went well, enjoy your new app!')

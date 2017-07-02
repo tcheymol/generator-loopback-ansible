@@ -6,9 +6,7 @@
 
 - `yarn`
 
-- `cd client && npm run setup`
-
-- Build the frontend code (in the client directory): `npm run build`
+- Build the frontend code: `cd client && npm run build`
 
 #### Create the vagrant
 - Launch VM from the root directory of the project:
