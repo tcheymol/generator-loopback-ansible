@@ -23,5 +23,6 @@
     - ubuntu-apt
     - create-www-data-user
     - any-nodejs
+    - fubarhouse.yarn
     - ubuntu-nodejs-nginx
     - ubuntu-postgresql
