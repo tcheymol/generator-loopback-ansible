@@ -24,14 +24,9 @@ module.exports = function (shipit) {
 
   const yarn = '/usr/local/lib/npm/bin/yarn';
 
-  const npmBackInstall = function () {
-      shipit.log('INSTALL BACKEND NODE_MODULES');
+  const installDependencies = function () {
+      shipit.log('INSTALL NODE_MODULES');
     return shipit.remote(`cd ${shipit.releasePath} && ${yarn} install`);
-  };
-
-  const npmFrontInstall = function () {
-      shipit.log('INSTALLING FRONTEND NODE_MODULES');
-    return shipit.remote(`cd ${shipit.releasePath}/client && ${yarn} install`);
   };
 
   const npmFrontCompile = function () {
@@ -55,8 +50,7 @@ module.exports = function (shipit) {
 
   // blTask will block other tasks during its execution (synchronous)
   shipit.blTask('install', function() {
-    return npmBackInstall()
-      .then(npmFrontInstall)
+    return installDependencies()
       .then(npmFrontCompile)
       .then(runMigrations)
       .then(restartServer)
