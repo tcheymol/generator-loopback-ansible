@@ -2,6 +2,10 @@
 
 ### Installation
 
+#### Install dependencies
+
+- `yarn`
+
 #### Create the vagrant
 - Launch VM:
   - `vagrant up`

@@ -14,7 +14,8 @@
     "posttest": "npm run lint && nsp check",
     "start": "node .",
     "start:prod": "NODE_ENV=production pm2 kill && pm2 startOrRestart pm2.yml",
-    "stop": "pm2 kill"
+    "stop": "pm2 kill",
+    "postinstall": "if test ./client; then cd client && yarn; fi"
   },
   "dependencies": {
     "compression": "^1.0.3",

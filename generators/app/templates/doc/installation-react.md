@@ -2,8 +2,14 @@
 
 ### Installation
 
+#### Install dependencies
+
+- `yarn`
+
+- Build the frontend code: `cd client && npm run build`
+
 #### Create the vagrant
-- Launch VM:
+- Launch VM from the root directory of the project:
   - `vagrant up`
   - If you encounter error `ttyname failed: Inappropriate ioctl for devices`:
     - Update vagrant to the latest version from the website (it works on 1.9.5)
