@@ -2,7 +2,7 @@
 
 This generator scripts everything you need to start a JS fullstack project:
 - [Loopback](http://loopback.io/) (nodejs framework) server
-- React or angular4 client from awesome boilerplates
+- React, React-Redux or Angular4 client from awesome boilerplates
 - Ansible provisioning with node 8, nginx, www-data user, postgresql database
 - Vagrant configuration
 - Shipit deployment script
@@ -21,25 +21,43 @@ You need to install:
 ## Installation
 
 
-Install the generator:
+### Choose a starter-kit according to your needs
 
+This generator will ask you to choose between 3 starter-kits (or no client at all).
+
+- **React** from [Create React App starter-kit](https://github.com/facebookincubator/create-react-app):
+  - A react starter-kit which generates a simple react app!
+  - For who ?
+    - Those who want to start with a minimalist react application and want to leverage the power of react-scripts to have their webpack config always up-to-date.
+
+
+- **React-Redux** from [React Boilerplate](https://github.com/react-boilerplate/react-boilerplate):
+  - A React-Redux starter-kit!
+  - For who ?
+      - Those who want to start with redux out of the box.
+
+
+- **Angular4** from [Angular starter](https://github.com/AngularClass/angular-starter):
+  - An Angular 4 starter-kit!
+  - For who ?
+    - Those who wants Angular!
+
+
+### Install the generator
+
+- Install the package:
 ```
 npm install -g generator-loopback-ansible
 ```
 
 ## Usage
 
-Create a new project:
-
 - Create a directory:
-
 ```
-mkdir myAwesomeProject
-cd myAwesomeProject
+mkdir myAwesomeProject && cd myAwesomeProject
 ```
 
 - Run the generator in the created directory:
-
 ```
 yo loopback-ansible
 ```
@@ -48,8 +66,8 @@ Then follow the generated documentation installation steps.
 
 ## What's next ?
 
-- Vault ansible files
-- Choice between Loopback, Express and Sailjs for the backend
+- Vault ansible files to be able to commit them.
+- Add a choice between Loopback, Express and Sailjs for the backend
 
 ## Troubleshooting
 
