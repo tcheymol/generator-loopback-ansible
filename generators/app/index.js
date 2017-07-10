@@ -12,8 +12,8 @@ class LoopbackGenerator extends Generator {
         type    : 'list',
         name    : 'client',
         message : 'Choose your client',
-        default : 'react',
-        choices : ['react', 'angular4', 'none']
+        default : 'react-redux',
+        choices : ['react-redux', 'react', 'angular4', 'none']
       },
       {
         type    : 'input',
@@ -54,15 +54,19 @@ class LoopbackGenerator extends Generator {
       }
     ]).then(answers => {
       this.answers = answers;
-      this.answers.clientPublicDirectory = 'client/dist';
+      this.answers.clientPublicDirectory = 'client/build';
+
+      if (this.answers.client === 'react-redux') {
+        this.answers.installationFile = 'doc/installation-react-redux.md';
+      }
 
       if (this.answers.client === 'react') {
-        this.answers.clientPublicDirectory = 'client/build';
         this.answers.installationFile = 'doc/installation-react.md';
       }
 
       if (this.answers.client === 'angular4') {
         this.answers.installationFile = 'doc/installation-angular.md';
+        this.answers.clientPublicDirectory = 'client/dist';
       }
 
       if (this.answers.client === 'none') {
@@ -71,7 +75,7 @@ class LoopbackGenerator extends Generator {
     });
   }
 
-  _addReactBoilerplate() {
+  _addReactReduxBoilerplate() {
     this.log('Cloning react-boilerplate');
     this.spawnCommandSync('git', [
       'clone',
@@ -102,6 +106,12 @@ class LoopbackGenerator extends Generator {
     }));
   }
 
+  _addReactBoilerplate() {
+    this.spawnCommandSync('npm', ['install', '-g', 'create-react-app']);
+    this.log('Using create-react-app');
+    this.spawnCommandSync('create-react-app', ['client']);
+  }
+
   _addAngularBoilerplate() {
     this.log('Cloning angular starter');
     this.spawnCommandSync('git', [
@@ -119,6 +129,10 @@ class LoopbackGenerator extends Generator {
   _addClient() {
     if (this.answers.client === 'none') {
       return;
+    }
+
+    if (this.answers.client === 'react-redux') {
+      this._addReactReduxBoilerplate()
     }
 
     if (this.answers.client === 'react') {
@@ -235,7 +249,7 @@ class LoopbackGenerator extends Generator {
     // .gitgnore is not included by npm publish https://github.com/npm/npm/issues/3763
     // It can be bypassed by renaming a gitgnore file to .gitignore
     this.spawnCommandSync('mv', ['./gitignore', './.gitignore']);
-    if (this.answers.client === 'react') {
+    if (this.answers.client === 'react-redux') {
       this.destinationRoot('client');
       this.spawnCommandSync('npm', ['uninstall', 'image-webpack-loader', '--save-dev']);
       this.spawnCommandSync('npm', ['run', 'setup']);
