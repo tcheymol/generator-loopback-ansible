@@ -21,6 +21,8 @@
     - composer
     - ubuntu-symfony-nginx
     - ubuntu-postgresql
+    - any-nodejs
+    - fubarhouse.yarn
 
 - name: Vagrant provisioning
   hosts: vagrant

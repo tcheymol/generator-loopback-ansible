@@ -158,18 +158,23 @@ class LoopbackGenerator extends Generator {
       '.editorconfig',
       '.eslintignore',
       'ansible.cfg',
-      'database.json',
-      'package.json',
-      'yarn.lock',
-      'pm2.yml',
       'README.md',
       'doc/deployment.md',
       'doc/provisioning.md',
       'doc/tests.md',
-      'shipitfile.js',
       'Vagrantfile',
       this.answers.installationFile
     ];
+
+    if (this.answers.backend === 'Loopback (nodejs)') {
+      files.concat([
+        'database.json',
+        'package.json',
+        'yarn.lock',
+        'pm2.yml',
+        'shipitfile.js',
+      ])
+    }
 
     return Promise.all(files.map(file => {
      return this.fs.copyTpl(
@@ -181,6 +186,10 @@ class LoopbackGenerator extends Generator {
   }
 
   _addMigrationsTemplates () {
+    if (this.answers.backend !== 'Loopback (nodejs)') {
+      return;
+    }
+
     return Promise.all([
      'migrations/20161206103004-create-user.js',
      'migrations/sqls/20161206103004-create-user-up.sql',
@@ -287,6 +296,8 @@ class LoopbackGenerator extends Generator {
     this.spawnCommandSync('php', ['-r', 'composer-setup.php']);
     this.spawnCommandSync('php', ['-r', "unlink('composer-setup.php');"]);
     this.spawnCommandSync('composer', ['create-project', 'api-platform/api-platform', 'server']);
+    this.spawnCommandSync('cd', ['server/web']);
+    this.spawnCommandSync('ls', ['-s', '../../client/build/ build']);
   }
 
   installProject() {
@@ -299,11 +310,7 @@ class LoopbackGenerator extends Generator {
       }
     })
     .then(() => this._addProvisioningTemplates())
-    .then(() => {
-      if (this.answers.backend === 'Loopback (nodejs)') {
-        return this._addMigrationsTemplates()
-      }
-      return;
+    .then(() => this._addMigrationsTemplates())
     .then(() => this._addClient())
   }
 
