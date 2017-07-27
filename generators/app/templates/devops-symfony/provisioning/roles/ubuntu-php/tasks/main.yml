@@ -1,0 +1,10 @@
+---
+- name: Install PHP Packages
+  become: yes
+  apt: pkg={{ item }} state=latest update_cache=yes
+  with_items: "{{ php_packages }}"
+  when: php_packages is defined
+  notify:
+    - restart php7-fpm
+
+- include: configure.yml

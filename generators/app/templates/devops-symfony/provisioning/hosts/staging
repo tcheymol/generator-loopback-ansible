@@ -1,0 +1,2 @@
+[staging]
+<%= stagingIpAddress %>  ansible_ssh_user=PUT_THE_USER_NAME_WHO_HAS_ACCESS_TO_STAGING_HERE

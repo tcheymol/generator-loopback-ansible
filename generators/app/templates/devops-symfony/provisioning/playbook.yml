@@ -1,0 +1,30 @@
+---
+
+- hosts: all
+  gather_facts: False
+
+  tasks:
+  - name: install python 2
+    raw: sudo bash -c "test -e /usr/bin/python || (apt -qqy update && apt install -qy python-minimal)"
+
+- name: Provisioning test-fansible
+  hosts: all
+  become: true
+  vars_files:
+    - vars/main.yml
+    - vars/ubuntu-xdebug.yml
+
+  roles:
+    - ubuntu-apt
+    - create-www-data-user
+    - ubuntu-php
+    - composer
+    - ubuntu-symfony-nginx
+    - ubuntu-postgresql
+
+- name: Vagrant provisioning
+  hosts: vagrant
+  become: yes
+  gather_facts: true
+  roles:
+   - ubuntu-xdebug

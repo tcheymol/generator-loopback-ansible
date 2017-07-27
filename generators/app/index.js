@@ -10,6 +10,13 @@ class LoopbackGenerator extends Generator {
       },
       {
         type    : 'list',
+        name    : 'backend',
+        message : 'Choose your backend techno',
+        default : 'API platforme (Symfony)',
+        choices : ['API platforme (Symfony)', 'Loopback (nodejs)']
+      },
+      {
+        type    : 'list',
         name    : 'client',
         message : 'Choose your client',
         default : 'react-redux',
@@ -188,31 +195,68 @@ class LoopbackGenerator extends Generator {
   }
 
   _addProvisioningTemplates () {
-    this.fs.copy(
-      this.templatePath('devops/provisioning/roles'),
-      this.destinationPath('devops/provisioning/roles'),
-      this.answers
-    );
+    if (this.answers.backend === 'API platforme (Symfony)') {
+      this.fs.copy(
+        this.templatePath('devops-symfony/provisioning/roles'),
+        this.destinationPath('devops-symfony/provisioning/roles'),
+        this.answers
+      );
 
-    return Promise.all([
-     'devops/provisioning/group_vars/prod',
-     'devops/provisioning/group_vars/staging',
-     'devops/provisioning/group_vars/vagrant',
-     'devops/provisioning/hosts/prod',
-     'devops/provisioning/hosts/staging',
-     'devops/provisioning/hosts/vagrant',
-     'devops/provisioning/vars/main.yml',
-     'devops/provisioning/playbook.yml',
-   ].map(file => {
-     return this.fs.copyTpl(
-       this.templatePath(file),
-       this.destinationPath(file),
-       this.answers
-     );
-   }));
+      this.fs.copy(
+        this.templatePath('devops-symfony/deploy'),
+        this.destinationPath('devops-symfony/deploy'),
+        this.answers
+      );
+
+      return Promise.all([
+        'Gemfile',
+        'Gemfile.lock',
+        'Capfile',
+        'devops-symfony/provisioning/group_vars/prod',
+        'devops-symfony/provisioning/group_vars/staging',
+        'devops-symfony/provisioning/group_vars/vagrant',
+        'devops-symfony/provisioning/hosts/prod',
+        'devops-symfony/provisioning/hosts/staging',
+        'devops-symfony/provisioning/hosts/vagrant',
+        'devops-symfony/provisioning/vars/main.yml',
+        'devops-symfony/provisioning/vars/ubuntu-xdebug.yml',
+        'devops-symfony/provisioning/playbook.yml',
+     ].map(file => {
+       return this.fs.copyTpl(
+         this.templatePath(file),
+         this.destinationPath(file),
+         this.answers
+       );
+     }));
+    }
+
+    if (this.answers.backend === 'Loopback (nodejs)') {
+      this.fs.copy(
+        this.templatePath('devops-node/provisioning/roles'),
+        this.destinationPath('devops-node/provisioning/roles'),
+        this.answers
+      );
+
+      return Promise.all([
+       'devops-node/provisioning/group_vars/prod',
+       'devops-node/provisioning/group_vars/staging',
+       'devops-node/provisioning/group_vars/vagrant',
+       'devops-node/provisioning/hosts/prod',
+       'devops-node/provisioning/hosts/staging',
+       'devops-node/provisioning/hosts/vagrant',
+       'devops-node/provisioning/vars/main.yml',
+       'devops-node/provisioning/playbook.yml',
+     ].map(file => {
+       return this.fs.copyTpl(
+         this.templatePath(file),
+         this.destinationPath(file),
+         this.answers
+       );
+     }));
+    }
   }
 
-  _addServerTemplates () {
+  _addNodeServerTemplates () {
     return Promise.all([
      'server/.eslintrc',
      'server/component-config.json',
@@ -237,11 +281,29 @@ class LoopbackGenerator extends Generator {
    }));
   }
 
+  _addSymfonyServer () {
+    this.spawnCommandSync('php', ['-r', "copy('https://getcomposer.org/installer', 'composer-setup.php');"]);
+    this.spawnCommandSync('php', ['-r', "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"]);
+    this.spawnCommandSync('php', ['-r', 'composer-setup.php']);
+    this.spawnCommandSync('php', ['-r', "unlink('composer-setup.php');"]);
+    this.spawnCommandSync('composer', ['create-project', 'api-platform/api-platform', 'server']);
+  }
+
   installProject() {
     return this._addConfigurationTemplates()
-    .then(() => this._addServerTemplates())
+    .then(() => {
+      if (this.answers.backend === 'Loopback (nodejs)') {
+        return this._addNodeServerTemplates();
+      } else if (this.answers.backend === 'API platforme (Symfony)') {
+        return this._addSymfonyServer();
+      }
+    })
     .then(() => this._addProvisioningTemplates())
-    .then(() => this._addMigrationsTemplates())
+    .then(() => {
+      if (this.answers.backend === 'Loopback (nodejs)') {
+        return this._addMigrationsTemplates()
+      }
+      return;
     .then(() => this._addClient())
   }
 
@@ -249,6 +311,15 @@ class LoopbackGenerator extends Generator {
     // .gitgnore is not included by npm publish https://github.com/npm/npm/issues/3763
     // It can be bypassed by renaming a gitgnore file to .gitignore
     this.spawnCommandSync('mv', ['./gitignore', './.gitignore']);
+
+    if (this.answers.backend === 'Loopback (nodejs)') {
+      this.spawnCommandSync('mv', ['./devops-node', './devops']);
+    };
+
+    if (this.answers.backend === 'API platforme (Symfony)') {
+      this.spawnCommandSync('mv', ['./devops-symfony', './devops']);
+    };
+
     if (this.answers.client === 'react-redux') {
       this.destinationRoot('client');
       this.spawnCommandSync('npm', ['uninstall', 'image-webpack-loader', '--save-dev']);

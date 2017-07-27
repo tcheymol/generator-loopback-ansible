@@ -1,0 +1,9 @@
+---
+#PUT here your main variable
+project_name: <%= appName %>
+port: 80
+apt_specific_packages:
+  - git
+
+composer_update: false
+postgresql_version: 9.6
