@@ -1,11 +1,12 @@
 # generator-loopback-ansible
 
-This generator scripts everything you need to start a JS fullstack project:
-- [Loopback](http://loopback.io/) (nodejs framework) server
+This generator scripts everything you need to start a project with:
+- [Api platform](https://api-platform.com/) or [Loopback](http://loopback.io/) (nodejs framework) server
 - React, React-Redux or Angular4 client from awesome boilerplates
 - Ansible provisioning with node 8, nginx, www-data user, postgresql database
 - Vagrant configuration
 - Shipit deployment script
+
 
 ## Prerequisites
 
@@ -17,6 +18,7 @@ You need to install:
 + Node.js (> 6.x) + Npm (install it with [nvm](https://github.com/creationix/nvm)): `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash`
 + [Ansible (version 2)](http://docs.ansible.com/ansible/intro_installation.html)
 + [Yarn](https://yarnpkg.com/en/docs/install)
++ [PHP](http://php.net/manual/en/intro-whatis.php) if you want to use API plateform (Symfony)
 
 ## Installation
 

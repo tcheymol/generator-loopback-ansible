@@ -11,9 +11,9 @@ class LoopbackGenerator extends Generator {
       {
         type    : 'list',
         name    : 'backend',
-        message : 'Choose your backend techno',
-        default : 'API platforme (Symfony)',
-        choices : ['API platforme (Symfony)', 'Loopback (nodejs)']
+        message : 'Choose your backend',
+        default : 'API Platform (Symfony)',
+        choices : ['API Platform (Symfony)', 'Loopback (nodejs)']
       },
       {
         type    : 'list',
@@ -159,9 +159,6 @@ class LoopbackGenerator extends Generator {
       '.eslintignore',
       'ansible.cfg',
       'README.md',
-      'doc/deployment.md',
-      'doc/provisioning.md',
-      'doc/tests.md',
       'Vagrantfile',
       this.answers.installationFile
     ];
@@ -173,6 +170,9 @@ class LoopbackGenerator extends Generator {
         'yarn.lock',
         'pm2.yml',
         'shipitfile.js',
+        'doc/deployment-node.md',
+        'doc/provisioning-node.md',
+        'doc/tests-node.md',
       ])
     }
 
@@ -204,7 +204,7 @@ class LoopbackGenerator extends Generator {
   }
 
   _addProvisioningTemplates () {
-    if (this.answers.backend === 'API platforme (Symfony)') {
+    if (this.answers.backend === 'API Platform (Symfony)') {
       this.fs.copy(
         this.templatePath('devops-symfony/provisioning/roles'),
         this.destinationPath('devops-symfony/provisioning/roles'),
@@ -305,7 +305,7 @@ class LoopbackGenerator extends Generator {
     .then(() => {
       if (this.answers.backend === 'Loopback (nodejs)') {
         return this._addNodeServerTemplates();
-      } else if (this.answers.backend === 'API platforme (Symfony)') {
+      } else if (this.answers.backend === 'API Platform (Symfony)') {
         return this._addSymfonyServer();
       }
     })
@@ -323,7 +323,7 @@ class LoopbackGenerator extends Generator {
       this.spawnCommandSync('mv', ['./devops-node', './devops']);
     };
 
-    if (this.answers.backend === 'API platforme (Symfony)') {
+    if (this.answers.backend === 'API Platform (Symfony)') {
       this.spawnCommandSync('mv', ['./devops-symfony', './devops']);
     };
 
