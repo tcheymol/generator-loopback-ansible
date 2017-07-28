@@ -117,6 +117,49 @@ class LoopbackGenerator extends Generator {
     this.spawnCommandSync('npm', ['install', '-g', 'create-react-app']);
     this.log('Using create-react-app');
     this.spawnCommandSync('create-react-app', ['client']);
+
+    this.spawnCommandSync('rm', ['client/App.js']);
+
+    return Promise.all([
+      'client/App.js',
+      'client/index.js',
+      'client/reducers.js',
+      'client/routes.js',
+      'client/store.js',
+      'client/containers/home-view/index.js',
+      'client/containers/home-view/style.css',
+      'client/containers/page/index.js',
+      'client/containers/page/style.css',
+      'client/containers/root/index.js',
+      'client/containers/root/style.css',
+    ].map(file => {
+      return this.fs.copyTpl(
+        this.templatePath(file),
+        this.destinationPath(file),
+        this.answers
+      );
+    }))
+    .then(() => {
+      let content = {
+        dependencies: {
+          'react-intl': '2.1.5',
+          'react-redux': '4.4.6',
+          'react-router': '3.0.0',
+          'react-router-redux': '4.0.6',
+        },
+        devDependencies: {
+          'eslint': '3.9.1',
+          'babel-eslint':'7.1.1',
+          'nsp': '2.6.3'
+        },
+      };
+      try {
+        let existingPackage = this.fs.readJSON('./client/package.json');
+        _.merge(content, existingPackage);
+      } catch (e) {}
+
+      this.fs.writeJSON(this.destinationPath('./client/package.json'), content);
+    });
   }
 
   _addAngularBoilerplate() {
