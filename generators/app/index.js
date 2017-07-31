@@ -1,4 +1,5 @@
 const Generator = require('yeoman-generator');
+const _ = require('lodash');
 
 class LoopbackGenerator extends Generator {
   prompting() {
@@ -20,7 +21,7 @@ class LoopbackGenerator extends Generator {
         name    : 'client',
         message : 'Choose your client',
         default : 'react-redux',
-        choices : ['react-redux', 'react', 'angular4', 'none']
+        choices : ['react-redux', 'angular4', 'none']
       },
       {
         type    : 'input',
@@ -65,10 +66,6 @@ class LoopbackGenerator extends Generator {
 
       if (this.answers.client === 'react-redux') {
         this.answers.installationFile = 'doc/installation-react-redux.md';
-      }
-
-      if (this.answers.client === 'react') {
-        this.answers.installationFile = 'doc/installation-react.md';
       }
 
       if (this.answers.client === 'angular4') {
@@ -118,20 +115,24 @@ class LoopbackGenerator extends Generator {
     this.log('Using create-react-app');
     this.spawnCommandSync('create-react-app', ['client']);
 
-    this.spawnCommandSync('rm', ['client/App.js']);
+    this.spawnCommandSync('rm', ['client/src/App.js']);
 
     return Promise.all([
-      'client/App.js',
-      'client/index.js',
-      'client/reducers.js',
-      'client/routes.js',
-      'client/store.js',
-      'client/containers/home-view/index.js',
-      'client/containers/home-view/style.css',
-      'client/containers/page/index.js',
-      'client/containers/page/style.css',
-      'client/containers/root/index.js',
-      'client/containers/root/style.css',
+      'client/src/App.js',
+      'client/src/index.js',
+      'client/src/reducers.js',
+      'client/src/routes.js',
+      'client/src/store.js',
+      'client/src/containers/home-view/index.js',
+      'client/src/containers/home-view/style.css',
+      'client/src/containers/page/index.js',
+      'client/src/containers/page/style.css',
+      'client/src/containers/root/index.js',
+      'client/src/containers/root/logo.svg',
+      'client/src/containers/root/style.css',
+      'client/src/utils/request.js',
+      'client/src/translations/fr.json',
+      'client/src/utils/request.test.js',
     ].map(file => {
       return this.fs.copyTpl(
         this.templatePath(file),
@@ -142,10 +143,13 @@ class LoopbackGenerator extends Generator {
     .then(() => {
       let content = {
         dependencies: {
-          'react-intl': '2.1.5',
+          'react-intl': '2.3.0',
           'react-redux': '4.4.6',
           'react-router': '3.0.0',
           'react-router-redux': '4.0.6',
+          'material-ui': '0.18.7',
+          'redux':'3.7.2',
+          'redux-saga': '0.15.6',
         },
         devDependencies: {
           'eslint': '3.9.1',
@@ -155,9 +159,8 @@ class LoopbackGenerator extends Generator {
       };
       try {
         let existingPackage = this.fs.readJSON('./client/package.json');
-        _.merge(content, existingPackage);
+        content = _.merge(content, existingPackage);
       } catch (e) {}
-
       this.fs.writeJSON(this.destinationPath('./client/package.json'), content);
     });
   }
@@ -182,10 +185,6 @@ class LoopbackGenerator extends Generator {
     }
 
     if (this.answers.client === 'react-redux') {
-      this._addReactReduxBoilerplate()
-    }
-
-    if (this.answers.client === 'react') {
       this._addReactBoilerplate()
     }
 
@@ -340,7 +339,6 @@ class LoopbackGenerator extends Generator {
     this.spawnCommandSync('php', ['-r', "unlink('composer-setup.php');"]);
     this.spawnCommandSync('composer', ['create-project', 'api-platform/api-platform', 'server']);
     this.spawnCommandSync('cd', ['server/web']);
-    this.spawnCommandSync('ls', ['-s', '../../client/build/ build']);
   }
 
   installProject() {
@@ -372,9 +370,7 @@ class LoopbackGenerator extends Generator {
 
     if (this.answers.client === 'react-redux') {
       this.destinationRoot('client');
-      this.spawnCommandSync('npm', ['uninstall', 'image-webpack-loader', '--save-dev']);
-      this.spawnCommandSync('npm', ['run', 'setup']);
-      this.spawnCommandSync('rm', ['-rf', '.git']);
+      this.spawnCommandSync('yarn');
     };
 
     this.log('Everything went well, enjoy your new app!')

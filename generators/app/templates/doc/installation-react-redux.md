@@ -23,14 +23,6 @@
 - Run migrations:
   - `cd /var/www/<%= appName %>/current && npm run migrate:up`
 
-#### Enable hot-reloading for webpack
-
-The starter kit used for the client doesn't have hot-reloading by default because it uses react PureComponent.
-
-**To enable hot-reloading**:
-- In the client/app folder, using your search and replace feature of your IDE, replace every string 'PureComponent' to 'Component'
-
-
 #### Start the server
 
 - Start the server:

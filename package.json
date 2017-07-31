@@ -9,6 +9,7 @@
     "generators"
   ],
   "dependencies": {
+    "lodash": "^4.17.4",
     "yarn-install": "^0.2.1",
     "yeoman-generator": "^1.0.0"
   },

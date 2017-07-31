@@ -1,20 +1,20 @@
 import React, { Component, PropTypes } from 'react';
-import { push } from 'react-router-redux';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import styles from './style.css';
 
-export class HomeView extends Component {
+export class Page extends Component {
 
   render() {
     return (
-      <div className={style.container}>
-        Hello World
+      <div className={styles.container}>
+        <Link to='/'>Back</Link>
       </div>
     );
   }
 }
 
-HomeView.propTypes = {};
+Page.propTypes = {};
 
 function mapStateToProps(state) {
   return {};
@@ -27,4 +27,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HomeView);
+)(Page);
